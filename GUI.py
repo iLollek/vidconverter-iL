@@ -62,8 +62,9 @@ class App(customtkinter.CTk):
         self.home_frame_button_2.grid(row=2, column=0, padx=20, pady=10)
         self.home_frame_optionframe = customtkinter.CTkOptionMenu(self.home_frame, values=['.mp4', '.mpg', '.mov'], command=self.optionmenu_callback, width=50)
         self.home_frame_optionframe.grid(row=3, column=0, padx=20, pady=10)
-        self.home_frame_entry = customtkinter.CTkEntry(self.home_frame, placeholder_text="Title (no spaces)")
+        self.home_frame_entry = customtkinter.CTkEntry(self.home_frame, placeholder_text="Filename Text Template")
         self.home_frame_entry.grid(row=4, column=0, padx=20, pady=10)
+        self.home_frame_entry.insert(0, f'<TITLE>')
         self.home_frame_button_4 = customtkinter.CTkButton(self.home_frame, text="Convert", command=self.Convert)
         self.home_frame_button_4.grid(row=5, column=0, padx=20, pady=10)
 
@@ -123,17 +124,14 @@ class App(customtkinter.CTk):
         self.home_frame_button_2.configure(text=f"Output folder chosen ({self.pathname})", fg_color="green")
 
     
-    def Convert(self): #checks if the data provided is enough, if yes, gives data to main py file
+    def Convert(self): # checks if the data provided is enough, if yes, gives data to main py file
         self.name = self.home_frame_entry.get()
         self.home_frame_entry.delete(first_index=0, last_index=len(self.name))
         if self.files and self.name and self.pathname != "":
-            print(self.name)
-            print(self.files)
-            print(self.pathname)
             self.home_frame_button_1.configure(text="Choose videos", fg_color='#1F6AA5')
             self.home_frame_button_2.configure(text="Output folder", fg_color="#1F6AA5")
             self.home_frame_button_4.configure(text="Converting...")
-            self.on_convert_callback(self.name, self.files, self.pathname, self.format)
+            self.on_convert_callback(self.name, self.files, self.pathname, self.format) # TODO: change self.pathname to self.outputpathname
         else:
             self.home_frame_button_4.configure(text="Missing required parameters! Retry!")
         
